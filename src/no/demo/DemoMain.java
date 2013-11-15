@@ -10,6 +10,8 @@ public class DemoMain extends PApplet {
 	MuzakAnalyser analyser;
 	Particles particles;
 
+    private int numSpectrumBoxes = 20;
+
     public void setup() {
         size(1280, 1024, P2D);
         background(0);
@@ -18,7 +20,7 @@ public class DemoMain extends PApplet {
             butterflyArrayList.add(GenerateRandomButterfly());
         }
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < numSpectrumBoxes; i++) {
             Color color = new Color(100, 1, 1);
             spectrumBoxArrayList.add(GenerateRandomSpectrumBox(i));
         }
@@ -96,7 +98,16 @@ public class DemoMain extends PApplet {
         public void draw() {
 
             float beat = analyser.getBeat();
-            int beatSize = (int) (beat *500);
+            //int beatSize = (int) (beat *500);
+
+            int numBands = analyser.getNumBands();
+            int loops = numBands / numSpectrumBoxes;
+            float sum = 0.0f;
+            for (int i = position; i != position + loops; ++i) {
+                sum += analyser.getBand(i);
+            }
+            sum /= loops;
+            int beatSize = (int) (500.0f * sum);
             if(beatSize > top){
                 top = beatSize;
             }
