@@ -6,43 +6,48 @@ import java.util.ArrayList;
 
 public class DemoMain extends PApplet {
 
-	MuzakAnalyser analyser;
-	
+    MuzakAnalyser analyser;
+
     public void setup() {
         size(1280, 1024);
         background(0);
 
-        for(int i = 0; i< 10; i++){
+        for (int i = 0; i < 10; i++) {
             butterflyArrayList.add(GenerateRandomButterfly());
         }
-        
+
+        for (int i = 0; i < 20; i++) {
+            Color color = new Color(100, 1, 1);
+            spectrumBoxArrayList.add(new SpectrumBox(color, i, 500));
+        }
+
         analyser = new MuzakAnalyser(this);
     }
 
-    private Butterfly GenerateRandomButterfly(){
+    private Butterfly GenerateRandomButterfly() {
         int Min = 0;
         int Max = 250;
 
-        int random1 = Min + (int)(Math.random() * ((Max - Min) + 1));
-        int random2 = Min + (int)(Math.random() * ((Max - Min) + 1));
-        int random3 = Min + (int)(Math.random() * ((Max - Min) + 1));
+        int random1 = Min + (int) (Math.random() * ((Max - Min) + 1));
+        int random2 = Min + (int) (Math.random() * ((Max - Min) + 1));
+        int random3 = Min + (int) (Math.random() * ((Max - Min) + 1));
 
-        int random4 = Min + (int)(Math.random() * ((Max - Min) + 1));
-        int random5 = Min + (int)(Math.random() * ((Max - Min) + 1));
-        int random6 = Min + (int)(Math.random() * ((Max - Min) + 1));
+        int random4 = Min + (int) (Math.random() * ((Max - Min) + 1));
+        int random5 = Min + (int) (Math.random() * ((Max - Min) + 1));
+        int random6 = Min + (int) (Math.random() * ((Max - Min) + 1));
 
-        Color randColor1 = new Color(random1,random2,random3);
-        Color randColor2 = new Color(random4,random5,random6);
+        Color randColor1 = new Color(random1, random2, random3);
+        Color randColor2 = new Color(random4, random5, random6);
 
         int PosMax = 2000;
 
-        int pos = Min + (int)(Math.random() * ((PosMax - Min) + 1));
+        int pos = Min + (int) (Math.random() * ((PosMax - Min) + 1));
 
         int SpeedMax = 10;
 
-        int position = Min + (int)(Math.random() * ((PosMax - Min) + 1));
+        int position = Min + (int) (Math.random() * ((PosMax - Min) + 1));
 
-        int speed =  1 + (int)(Math.random() * ((SpeedMax - 1) + 1));
+        int speed = 1 + (int) (Math.random() * ((SpeedMax - 1) + 1));
 
         Butterfly b1 = new Butterfly(randColor1, randColor2, position, 0, speed);
 
@@ -62,6 +67,33 @@ public class DemoMain extends PApplet {
     boolean butterflyReturns = false;
 
     ArrayList<Butterfly> butterflyArrayList = new ArrayList<Butterfly>();
+    ArrayList<SpectrumBox> spectrumBoxArrayList = new ArrayList<SpectrumBox>();
+
+
+    public class SpectrumBox {
+        private Color spectrumColor;
+        private int position;
+        private int top;
+
+        public SpectrumBox(Color color, int position, int top) {
+            spectrumColor = color;
+            this.position = position;
+            this.top = top;
+        }
+
+        public void draw() {
+
+            float beat = analyser.getBeat();
+            int beatSize = (int) (beat *500);
+            if(beatSize > top){
+                top = beatSize;
+            }
+
+            DrawMirroredSpectrumBox(this.spectrumColor, this.position, this.top);
+
+            top -= 10;
+        }
+    }
 
     public class Butterfly {
         private Color bodyColor, wingColor;
@@ -78,17 +110,17 @@ public class DemoMain extends PApplet {
         }
 
         public void move() {
-            if(yPosition > 2000){
+            if (yPosition > 2000) {
                 int Min = 0;
                 int PosMax = 2000;
 
-                int pos = Min + (int)(Math.random() * ((PosMax - Min) + 1));
+                int pos = Min + (int) (Math.random() * ((PosMax - Min) + 1));
 
                 int SpeedMax = 10;
 
-                int position = Min + (int)(Math.random() * ((PosMax - Min) + 1));
+                int position = Min + (int) (Math.random() * ((PosMax - Min) + 1));
 
-                int speed =  1 + (int)(Math.random() * ((SpeedMax - 1) + 1));
+                int speed = 1 + (int) (Math.random() * ((SpeedMax - 1) + 1));
                 xOffset = position;
                 this.speed = speed;
                 yPosition = -300;
@@ -105,9 +137,13 @@ public class DemoMain extends PApplet {
     public void draw() {
         clear();
 
-        for(Butterfly butterfly : butterflyArrayList){
+        for (Butterfly butterfly : butterflyArrayList) {
             butterfly.move();
-            butterfly.draw();
+            //butterfly.draw();
+        }
+
+        for (SpectrumBox spectrumBox : spectrumBoxArrayList) {
+            spectrumBox.draw();
         }
 
         if (turn) {
@@ -159,18 +195,37 @@ public class DemoMain extends PApplet {
         }
     }
 
+    private void DrawMirroredSpectrumBox(Color body, int position, int readout) {
+        fill(body.R, body.G, body.B);
+        int bottomY = 1000;
+        int readOut = readout;
+        int baseX = 100 * position;
+        int boxWidth = 100;
+        //Top
+        quad(
+                baseX, 0,
+                baseX + boxWidth, 0,
+                baseX + boxWidth, readOut,
+                baseX, readOut);
+        //Bottom
+        quad(
+                baseX, bottomY - readOut,
+                baseX + boxWidth, bottomY - readOut,
+                baseX + boxWidth, bottomY,
+                baseX, bottomY);
+    }
+
     private void DrawButterflyMethod(Color body, Color wings, int xOffset, int yOffset) {
         //Butterfly body
         float beat = analyser.getBeat();
         int height = 100;
         int wingSpan = (int) (beat * beat * 50 + 200);
         wingSpan = 200;
-        System.out.println(width);
         stroke(50, 50, 100);
         fill(body.R, body.G, body.B);
         quad(
-                xOffset, yOffset +150 - height,
-                xOffset + 100, yOffset +150 - height,   //Punkg - 2
+                xOffset, yOffset + 150 - height,
+                xOffset + 100, yOffset + 150 - height,   //Punkg - 2
                 xOffset + 100, yOffset + 150 + height,   //Punkt - 3
                 xOffset, yOffset + 150 + height);
 
@@ -182,16 +237,16 @@ public class DemoMain extends PApplet {
         //Wing One
         quad(
                 xOffset - wingSpan + x, yOffset - 100 + y,  //Left part
-                xOffset, yOffset +150 - height,
+                xOffset, yOffset + 150 - height,
                 xOffset, yOffset + 150 + height,
                 xOffset - wingSpan + x, yOffset + 400 - y); //Left part
 
 
         //Wing Two
         quad(
-                xOffset + 100, yOffset +150 - height,
+                xOffset + 100, yOffset + 150 - height,
                 xOffset + wingSpan + 100 - x, yOffset - 100 + x, //Right part
-                xOffset + wingSpan + 100- x, yOffset + 400 - x, //Right part
+                xOffset + wingSpan + 100 - x, yOffset + 400 - x, //Right part
                 xOffset + 100, yOffset + 150 + height);
 
     }
