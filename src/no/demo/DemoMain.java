@@ -5,11 +5,12 @@ import processing.core.PApplet;
 import java.util.ArrayList;
 
 public class DemoMain extends PApplet {
-
+	private static final long serialVersionUID = 1L;
 	MuzakAnalyser analyser;
+	Particles particles;
 	
     public void setup() {
-        size(1280, 1024);
+        size(1280, 1024, P2D);
         background(0);
 
         for(int i = 0; i< 10; i++){
@@ -17,6 +18,8 @@ public class DemoMain extends PApplet {
         }
         
         analyser = new MuzakAnalyser(this);
+        particles = new Particles(this);
+        particles.create(150);
     }
 
     private Butterfly GenerateRandomButterfly(){
@@ -36,8 +39,6 @@ public class DemoMain extends PApplet {
 
         int PosMax = 2000;
 
-        int pos = Min + (int)(Math.random() * ((PosMax - Min) + 1));
-
         int SpeedMax = 10;
 
         int position = Min + (int)(Math.random() * ((PosMax - Min) + 1));
@@ -56,10 +57,6 @@ public class DemoMain extends PApplet {
     int color = 0;
     boolean turn = true;
     int speed = 5;
-
-
-    int butterflyPosition = 0;
-    boolean butterflyReturns = false;
 
     ArrayList<Butterfly> butterflyArrayList = new ArrayList<Butterfly>();
 
@@ -82,8 +79,6 @@ public class DemoMain extends PApplet {
                 int Min = 0;
                 int PosMax = 2000;
 
-                int pos = Min + (int)(Math.random() * ((PosMax - Min) + 1));
-
                 int SpeedMax = 10;
 
                 int position = Min + (int)(Math.random() * ((PosMax - Min) + 1));
@@ -105,6 +100,8 @@ public class DemoMain extends PApplet {
     public void draw() {
         clear();
 
+        particles.draw(this);
+        
         for(Butterfly butterfly : butterflyArrayList){
             butterfly.move();
             butterfly.draw();
@@ -126,27 +123,13 @@ public class DemoMain extends PApplet {
             turn = false;
         }
 
-        if (butterflyPosition > 2000) {
-            butterflyPosition = -600;
-            //butterflyReturns = true;
-        }
-        if (butterflyPosition < 0) {
-            butterflyReturns = false;
-        }
-
-        if (butterflyReturns) {
-            butterflyPosition -= 2;
-        } else {
-            butterflyPosition += 2;
-        }
 
         float beat = analyser.getBeat();
         if (beat > 0.0) {
         	fill(255, 0, 0);
         	stroke(255, 0, 0);
-        	Render.circle(this, width / 2, height / 2, 100 * beat, 32);
+        	Render.circle(this, 10.0f, 10.0f, 9.0f * beat, 32);
         }
-
     }
 
     public class Color {
