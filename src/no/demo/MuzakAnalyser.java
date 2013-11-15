@@ -14,10 +14,11 @@ public class MuzakAnalyser {
 	public MuzakAnalyser(PApplet parent) {
 		this.parent = parent;
 		minim = new Minim(parent);
-		song = minim.loadFile("milkman.mp3", 512);
+		song = minim.loadFile("C:/milkman.mp3", 512);
 		bd = new BeatDetect(song.bufferSize(), song.sampleRate());
 		bd.detectMode(BeatDetect.FREQ_ENERGY);
 		song.play();
+        song.mute();
 	}
 	
 	private int count = 0;

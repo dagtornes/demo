@@ -140,12 +140,12 @@ public class DemoMain extends PApplet {
             butterflyPosition += 2;
         }
 
-        float beat = analyser.getBeat();
-        if (beat > 0.0) {
-        	fill(255, 0, 0);
-        	stroke(255, 0, 0);
-        	Render.circle(this, width / 2, height / 2, 100 * beat, 32);
-        }
+//        float beat = analyser.getBeat();
+//        if (beat > 0.0) {
+//            fill(255, 0, 0);
+//            stroke(255, 0, 0);
+//            Render.circle(this, width / 2, height / 2, 100 * beat, 32);
+//        }
 
     }
 
@@ -161,13 +161,18 @@ public class DemoMain extends PApplet {
 
     private void DrawButterflyMethod(Color body, Color wings, int xOffset, int yOffset) {
         //Butterfly body
+        float beat = analyser.getBeat();
+        int height = 100;
+        int wingSpan = (int) (beat * beat * 50 + 200);
+        wingSpan = 200;
+        System.out.println(width);
         stroke(50, 50, 100);
         fill(body.R, body.G, body.B);
         quad(
-                xOffset, yOffset,
-                xOffset + 100, yOffset,   //Punkg - 2
-                xOffset + 100, yOffset + 300,   //Punkt - 3
-                xOffset, yOffset + 300);
+                xOffset, yOffset +150 - height,
+                xOffset + 100, yOffset +150 - height,   //Punkg - 2
+                xOffset + 100, yOffset + 150 + height,   //Punkt - 3
+                xOffset, yOffset + 150 + height);
 
 
         //Wing color
@@ -176,18 +181,18 @@ public class DemoMain extends PApplet {
 
         //Wing One
         quad(
-                xOffset - 300 + x, yOffset - 100 + y,
-                xOffset, yOffset,
-                xOffset, yOffset + 300,
-                xOffset - 300 + x, yOffset + 400 - y);
+                xOffset - wingSpan + x, yOffset - 100 + y,  //Left part
+                xOffset, yOffset +150 - height,
+                xOffset, yOffset + 150 + height,
+                xOffset - wingSpan + x, yOffset + 400 - y); //Left part
 
 
         //Wing Two
         quad(
-                xOffset + 100, yOffset,
-                xOffset + 400 - x, yOffset - 100 + x,
-                xOffset + 400 - x, yOffset + 400 - x,
-                xOffset + 100, yOffset + 300);
+                xOffset + 100, yOffset +150 - height,
+                xOffset + wingSpan + 100 - x, yOffset - 100 + x, //Right part
+                xOffset + wingSpan + 100- x, yOffset + 400 - x, //Right part
+                xOffset + 100, yOffset + 150 + height);
 
     }
 }
