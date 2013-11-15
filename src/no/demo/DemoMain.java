@@ -2,10 +2,14 @@ package no.demo;
 
 import processing.core.PApplet;
 
+import java.util.ArrayList;
+
 public class DemoMain extends PApplet {
     public void setup() {
         size(1280, 1024);
         background(0);
+        butterflyArrayList.add(b1);
+        butterflyArrayList.add(b2);
     }
 
     int x = 0;
@@ -20,34 +24,45 @@ public class DemoMain extends PApplet {
     int butterflyPosition = 0;
     boolean butterflyReturns = false;
 
+    ArrayList<Butterfly> butterflyArrayList = new ArrayList<Butterfly>();
+
+    Color red = new Color(100,0,0);
+    Color blue = new Color(0,0,100);
+
+    Butterfly b1 = new Butterfly(red,blue,300,0,1);
+    Butterfly b2 = new Butterfly(red,blue,600,0,3);
+
+    public class Butterfly {
+        private Color bodyColor, wingColor;
+        private int xOffset, yPosition;
+        private int speed;
+
+
+        public Butterfly(Color body, Color wing, int xOffset, int yOffset, int speed) {
+            this.bodyColor = body;
+            this.wingColor = wing;
+            this.xOffset = xOffset;
+            this.yPosition = yOffset;
+            this.speed = speed;
+        }
+
+        public void move() {
+            yPosition = yPosition + speed;
+        }
+
+        public void draw() {
+            DrawButterflyMethod(bodyColor, wingColor, xOffset, yPosition);
+        }
+    }
+
+
     public void draw() {
         clear();
 
-        //Butterfly();
-
-        Color bodyColor = new Color(140, 50, 7);
-        Color wingColor = new Color(100, 0, 0);
-
-        ButterflyTwo(bodyColor, wingColor, 600, butterflyPosition);
-
-        bodyColor = new Color(78, 170, 90);
-        wingColor = new Color(5, 110, 0);
-
-        ButterflyTwo(bodyColor, wingColor, 400, butterflyPosition+200);
-
-
-        bodyColor = new Color(78, 50, 90);
-        wingColor = new Color(5, 5, 230);
-
-        ButterflyTwo(bodyColor, wingColor, 700, butterflyPosition-700);
-
-        bodyColor = new Color(98, 150, 90);
-        wingColor = new Color(45, 10, 0);
-
-        ButterflyTwo(bodyColor, wingColor, 1000, butterflyPosition-300);
-
-        //ButterflyTwo(bodyColor, wingColor, 600, 400);
-
+        for(Butterfly butterfly : butterflyArrayList){
+            butterfly.move();
+            butterfly.draw();
+        }
 
         if (turn) {
             x -= speed;
@@ -65,21 +80,44 @@ public class DemoMain extends PApplet {
             turn = false;
         }
 
-        if(butterflyPosition > 2000){
+        if (butterflyPosition > 2000) {
             butterflyPosition = -600;
             //butterflyReturns = true;
         }
-        if(butterflyPosition < 0){
+        if (butterflyPosition < 0) {
             butterflyReturns = false;
         }
 
-        if(butterflyReturns){
-            butterflyPosition-=2;
-        }else {
-            butterflyPosition+=2;
+        if (butterflyReturns) {
+            butterflyPosition -= 2;
+        } else {
+            butterflyPosition += 2;
         }
 
 
+    }
+
+    public void FlockOfButterflies() {
+        Color bodyColor = new Color(140, 50, 7);
+        Color wingColor = new Color(100, 0, 0);
+
+        DrawButterflyMethod(bodyColor, wingColor, 600, butterflyPosition);
+
+        bodyColor = new Color(78, 170, 90);
+        wingColor = new Color(5, 110, 0);
+
+        DrawButterflyMethod(bodyColor, wingColor, 400, butterflyPosition + 200);
+
+
+        bodyColor = new Color(78, 50, 90);
+        wingColor = new Color(5, 5, 230);
+
+        DrawButterflyMethod(bodyColor, wingColor, 700, butterflyPosition - 700);
+
+        bodyColor = new Color(98, 150, 90);
+        wingColor = new Color(45, 10, 0);
+
+        DrawButterflyMethod(bodyColor, wingColor, 1000, butterflyPosition - 300);
     }
 
     public class Color {
@@ -92,7 +130,7 @@ public class DemoMain extends PApplet {
         }
     }
 
-    private void ButterflyTwo(Color body, Color wings, int xOffset, int yOffset) {
+    private void DrawButterflyMethod(Color body, Color wings, int xOffset, int yOffset) {
         //Butterfly body
         stroke(50, 50, 100);
         fill(body.R, body.G, body.B);
@@ -112,14 +150,14 @@ public class DemoMain extends PApplet {
                 xOffset - 300 + x, yOffset - 100 + y,
                 xOffset, yOffset,
                 xOffset, yOffset + 300,
-                xOffset - 300 + x, yOffset+400 - y);
+                xOffset - 300 + x, yOffset + 400 - y);
 
 
         //Wing Two
         quad(
                 xOffset + 100, yOffset,
-                xOffset + 400 - x, yOffset-100 + x,
-                xOffset + 400 - x, yOffset+400 - x,
+                xOffset + 400 - x, yOffset - 100 + x,
+                xOffset + 400 - x, yOffset + 400 - x,
                 xOffset + 100, yOffset + 300);
 
     }
