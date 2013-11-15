@@ -25,12 +25,12 @@ public class DemoMain extends PApplet {
 
         //Butterfly();
 
-        Color bodyColor = new Color(10, 50, 90);
+        Color bodyColor = new Color(140, 50, 7);
         Color wingColor = new Color(100, 0, 0);
 
         ButterflyTwo(bodyColor, wingColor, 600, butterflyPosition);
 
-        bodyColor = new Color(78, 50, 90);
+        bodyColor = new Color(78, 170, 90);
         wingColor = new Color(5, 110, 0);
 
         ButterflyTwo(bodyColor, wingColor, 400, butterflyPosition+200);
@@ -44,7 +44,7 @@ public class DemoMain extends PApplet {
         bodyColor = new Color(98, 150, 90);
         wingColor = new Color(45, 10, 0);
 
-        ButterflyTwo(bodyColor, wingColor, 400, butterflyPosition-300);
+        ButterflyTwo(bodyColor, wingColor, 1000, butterflyPosition-300);
 
         //ButterflyTwo(bodyColor, wingColor, 600, 400);
 
@@ -65,17 +65,18 @@ public class DemoMain extends PApplet {
             turn = false;
         }
 
-        if(butterflyPosition > 1000){
-            butterflyReturns = true;
+        if(butterflyPosition > 2000){
+            butterflyPosition = -600;
+            //butterflyReturns = true;
         }
         if(butterflyPosition < 0){
             butterflyReturns = false;
         }
 
         if(butterflyReturns){
-            butterflyPosition--;
+            butterflyPosition-=2;
         }else {
-            butterflyPosition++;
+            butterflyPosition+=2;
         }
 
 
