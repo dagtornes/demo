@@ -14,6 +14,7 @@ public class DemoMain extends PApplet {
     int y2 = 0;
     int color = 0;
     boolean turn = true;
+    int speed = 5;
 
     public void draw() {
         clear();
@@ -48,6 +49,16 @@ public class DemoMain extends PApplet {
                 600,500,
                 300+x,600-y);
 
+
+
+        //Wing Two
+        quad(
+                700,200,
+                1000-x,100+x,
+                1000-x,600-x,
+                700,500);
+
+
         if(x > 200){
             turn = true;
         }
@@ -56,20 +67,14 @@ public class DemoMain extends PApplet {
             turn = false;
         }
 
-        if(turn){
-            x--;
-            y--;
-        }else{
-            x++;
-            y++;
-        }
 
-        //Wing Two
-        quad(
-                700,200,
-                1000,100,
-                1000,600,
-                700,500);
+        if(turn){
+            x-=speed;
+            y-=speed;
+        }else{
+            x+=speed;
+            y+=speed;
+        }
 
         //quad(x, y, x2, y2, 69, 63, 30, 76);
         //quad(38+x, 31+y, 86+x, 20+y, 69, 63, 30, 76);
