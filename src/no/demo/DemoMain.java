@@ -18,10 +18,21 @@ public class DemoMain extends PApplet {
 
         for (int i = 0; i < 20; i++) {
             Color color = new Color(100, 1, 1);
-            spectrumBoxArrayList.add(new SpectrumBox(color, i, 500));
+            spectrumBoxArrayList.add(GenerateRandomSpectrumBox(i));
         }
 
         analyser = new MuzakAnalyser(this);
+    }
+
+    private SpectrumBox GenerateRandomSpectrumBox(int position){
+        int Min = 0;
+        int Max = 250;
+
+        int random1 = Min + (int) (Math.random() * ((Max - Min) + 1));
+        int random2 = Min + (int) (Math.random() * ((Max - Min) + 1));
+        int random3 = Min + (int) (Math.random() * ((Max - Min) + 1));
+        Color randColor1 = new Color(random1, random2, random3);
+        return new SpectrumBox(randColor1,position,0);
     }
 
     private Butterfly GenerateRandomButterfly() {
