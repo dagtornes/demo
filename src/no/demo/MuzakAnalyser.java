@@ -51,4 +51,13 @@ public class MuzakAnalyser {
 		
 		parent.popMatrix();
 	}
+	
+	public float getBand(int i) {
+		fft.forward(song.mix);
+		return fft.getBand(i);
+	}
+	
+	public int getNumBands() {
+		return fft.specSize();
+	}
 }
