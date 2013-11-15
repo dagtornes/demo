@@ -29,7 +29,7 @@ public class DemoMain extends PApplet {
 
         //Butterfly body
         stroke(50,50,100);
-        fill(10,50,50);
+        fill(80,150,50);
         quad(
                 600,200,
                 700,200,   //Punkg - 2
@@ -43,10 +43,26 @@ public class DemoMain extends PApplet {
 
         //Wing One
         quad(
-                300,100,
+                300+x,100+y,
                 600,200,
                 600,500,
-                300,600);
+                300+x,600-y);
+
+        if(x > 200){
+            turn = true;
+        }
+
+        if(x < 1){
+            turn = false;
+        }
+
+        if(turn){
+            x--;
+            y--;
+        }else{
+            x++;
+            y++;
+        }
 
         //Wing Two
         quad(
