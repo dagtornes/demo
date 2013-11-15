@@ -5,11 +5,17 @@ import processing.core.PApplet;
 import java.util.ArrayList;
 
 public class DemoMain extends PApplet {
+
+	MuzakAnalyser analyser;
+	
     public void setup() {
         size(1280, 1024);
         background(0);
+
         butterflyArrayList.add(b1);
         butterflyArrayList.add(b2);
+        
+        analyser = new MuzakAnalyser(this);
     }
 
     int x = 0;
@@ -94,6 +100,12 @@ public class DemoMain extends PApplet {
             butterflyPosition += 2;
         }
 
+        float beat = analyser.getBeat();
+        if (beat > 0.0) {
+        	fill(255, 0, 0);
+        	stroke(255, 0, 0);
+        	Render.circle(this, width / 2, height / 2, 100 * beat, 32);
+        }
 
     }
 
