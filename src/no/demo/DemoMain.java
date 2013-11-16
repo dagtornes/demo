@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DemoMain extends PApplet {
-	private static final long serialVersionUID = 1L;
 
 	private List<Scene> scenes;
 	
@@ -28,11 +27,6 @@ public class DemoMain extends PApplet {
             butterflyArrayList.add(GenerateRandomButterfly());
         }
 
-        for (int i = 0; i < numSpectrumBoxes; i++) {
-            Color color = new Color(100, 1, 1);
-            spectrumBoxArrayList.add(GenerateRandomSpectrumBox(i));
-        }
-
         analyser = new MuzakAnalyser(this);
         particles = new Particles(this);
         particles.create(150);
@@ -42,7 +36,7 @@ public class DemoMain extends PApplet {
         }
     }
 
-    private SpectrumBox GenerateRandomSpectrumBox(int position){
+    private SpectrumBox GenerateRandomSpectrumBox(int position, int numSpectrumBoxes){
         int Min = 0;
         int Max = 250;
 
@@ -50,7 +44,7 @@ public class DemoMain extends PApplet {
         int random2 = Min + (int) (Math.random() * ((Max - Min) + 1));
         int random3 = Min + (int) (Math.random() * ((Max - Min) + 1));
         Color randColor1 = new Color(random1, random2, random3);
-        return new SpectrumBox(randColor1,position,0);
+        return new SpectrumBox(this,analyser,randColor1,position,numSpectrumBoxes,0);
     }
 
     private Butterfly GenerateRandomButterfly() {
@@ -88,44 +82,7 @@ public class DemoMain extends PApplet {
     ArrayList<SpectrumBox> spectrumBoxArrayList = new ArrayList<SpectrumBox>();
 
 
-    public class SpectrumBox {
-        private Color spectrumColor;
-        private int position;
-        private int top;
 
-        public SpectrumBox(Color color, int position, int top) {
-            spectrumColor = color;
-            this.position = position;
-            this.top = top;
-        }
-
-        public void draw() {
-
-            float beat = analyser.getBeat();
-            //int beatSize = (int) (beat *500);
-
-            int numBands = analyser.getNumBands();
-            int loops = numBands / numSpectrumBoxes;
-            float sum = 0.0f;
-            for (int i = position; i != position + loops; ++i) {
-                sum += analyser.getBand(i);
-            }
-            sum /= loops;
-            int beatSize = (int) (100.0f * sum);
-
-            if(beatSize > 500){
-                beatSize = 500;
-            }
-
-            if(beatSize > top){
-                top = beatSize;
-            }
-
-            DrawMirroredSpectrumBox(this.spectrumColor, this.position, this.top);
-
-            top -= 10;
-        }
-    }
 
     public void draw() {
         clear();
@@ -142,9 +99,9 @@ public class DemoMain extends PApplet {
 //
 //        particles.draw(this);
 //        
-//        for (SpectrumBox spectrumBox : spectrumBoxArrayList) {
-//        	spectrumBox.draw();
-//        }
+        for (SpectrumBox spectrumBox : spectrumBoxArrayList) {
+        	spectrumBox.draw();
+        }
 //        
 //        for(Butterfly butterfly : butterflyArrayList){
 //            butterfly.move();
