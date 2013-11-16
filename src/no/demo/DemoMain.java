@@ -12,16 +12,23 @@ public class DemoMain extends PApplet {
 	private static final long serialVersionUID = 1L;
 	MuzakAnalyser analyser;
 	Particles particles;
-
+	Helix helix1, helix2;
+	
     private int numSpectrumBoxes = 20;
 
     public void setup() {
+    	helix1 = new Helix(150.0f, 10.0f, 0.075f);
+    	helix2 = new Helix(150.0f, -10.0f, 0.075f);
+    	helix2.phase = 0.0f;
+    	
+    	
+    	scenes = new ArrayList<Scene>();
+    	scenes.add(new Scene1(this, 5000));
+    	scenes.add(new SceneButterflies(this, 150000));
+    	
         size(1280, 1024, P2D);
         background(0);
 
-        for (int i = 0; i < 10; i++) {
-            butterflyArrayList.add(GenerateRandomButterfly());
-        }
 
         analyser = new MuzakAnalyser(this);
         particles = new Particles(this);
@@ -34,28 +41,6 @@ public class DemoMain extends PApplet {
 
 
 
-    private Butterfly GenerateRandomButterfly() {
-        int Min = 0;
-        int Max = 250;
-
-        Color randColor1 = Color.random(Min, Max);
-        Color randColor2 = Color.random(Min, Max);
-
-        int PosMax = 2000;
-
-
-        int pos = Min + (int) (Math.random() * ((PosMax - Min) + 1));
-
-        int SpeedMax = 10;
-
-        int position = Min + (int) (Math.random() * ((PosMax - Min) + 1));
-
-        int speed = 1 + (int) (Math.random() * ((SpeedMax - 1) + 1));
-
-        Butterfly b1 = new Butterfly(this, randColor1, randColor2, position, 0, speed);
-
-        return b1;
-    }
 
     int x = 0;
     int y = 0;
@@ -84,28 +69,11 @@ public class DemoMain extends PApplet {
         		scenes.remove(0);
         	}
         }
-
+        
+        float beat = analyser.getBeat();
+        helix1.amplitude = 10 * beat + 5;
+        helix1.draw(this);
+        helix2.amplitude = -(10 * beat + 5);
+        helix2.draw(this);
     }
-
-
-    private void DrawMirroredSpectrumBox(Color body, int position, int readout) {
-        fill(body.R, body.G, body.B);
-        int bottomY = 1000;
-        int readOut = readout;
-        int baseX = 100 * position;
-        int boxWidth = 100;
-        //Top
-        quad(
-                baseX, 0,
-                baseX + boxWidth, 0,
-                baseX + boxWidth, readOut,
-                baseX, readOut);
-        //Bottom
-        quad(
-                baseX, bottomY - readOut,
-                baseX + boxWidth, bottomY - readOut,
-                baseX + boxWidth, bottomY,
-                baseX, bottomY);
-    }
-
 }

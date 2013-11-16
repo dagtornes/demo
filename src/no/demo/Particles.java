@@ -5,23 +5,19 @@ import java.util.Iterator;
 import java.util.Random;
 
 import processing.core.PApplet;
-import processing.core.PImage;
 
 public class Particles {
-
-	PImage texture;
 	
 	private class Particle {
 
 		public float x = 0.0f, y = 0.0f;
-		public Particle(float x, float y, PImage texture) {
+		public Particle(float x, float y) {
 			this.x = x;
 			this.y = y;
 		}
 		
 		public void update() {
 			y += 40.0f * DT;
-			
 		}
 
 		public void draw(PApplet render) {
@@ -65,15 +61,13 @@ public class Particles {
 			float x = r.nextFloat() * parent.width;
 			float y = r.nextFloat() * parent.height;
 			
-			particles.add(new Particle(x, y, this.texture));
+			particles.add(new Particle(x, y));
 		}
 	}
 	
 	public Particles(PApplet parent) {
 		this.parent = parent;
 		this.particles = new ArrayList<Particle>();
-		
-		//this.texture = parent.loadImage("radial.jpg");
 	}
 	
 	

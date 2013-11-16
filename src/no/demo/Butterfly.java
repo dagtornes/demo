@@ -39,6 +39,8 @@ public class Butterfly {
     }
 
     public void draw(int x, int y) {
+    	int body_width = 50;
+    	
     	demoMain.stroke(50, 50, 100);
     	demoMain.fill(bodyColor.R, bodyColor.G, bodyColor.B);
     	demoMain.quad(
