@@ -24,6 +24,8 @@ public class SpectrumBox {
         this.parent = parent;
         this.analyser = analyser;
         this.numSpectrumBoxes = numSpectrumBoxes;
+
+
     }
 
     public void draw() {

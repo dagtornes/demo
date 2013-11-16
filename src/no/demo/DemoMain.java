@@ -16,10 +16,6 @@ public class DemoMain extends PApplet {
     private int numSpectrumBoxes = 20;
 
     public void setup() {
-    	
-    	scenes = new ArrayList<Scene>();
-    	scenes.add(new Scene1(this, 10 * 1000));
-    	
         size(1280, 1024, P2D);
         background(0);
 
@@ -31,21 +27,12 @@ public class DemoMain extends PApplet {
         particles = new Particles(this);
         particles.create(150);
 
-        for (int i = 0; i < numSpectrumBoxes; i++) {
-            spectrumBoxArrayList.add(GenerateRandomSpectrumBox(i,numSpectrumBoxes));
-        }
+        scenes = new ArrayList<Scene>();
+        scenes.add(new Scene1(this, 10 * 1000));
+        scenes.add(new Scene3(this, analyser, 10 * 2000));
     }
 
-    private SpectrumBox GenerateRandomSpectrumBox(int position, int numSpectrumBoxes){
-        int Min = 0;
-        int Max = 250;
 
-        int random1 = Min + (int) (Math.random() * ((Max - Min) + 1));
-        int random2 = Min + (int) (Math.random() * ((Max - Min) + 1));
-        int random3 = Min + (int) (Math.random() * ((Max - Min) + 1));
-        Color randColor1 = new Color(random1, random2, random3);
-        return new SpectrumBox(this,analyser,randColor1,position,numSpectrumBoxes,0);
-    }
 
     private Butterfly GenerateRandomButterfly() {
         int Min = 0;
@@ -87,7 +74,8 @@ public class DemoMain extends PApplet {
     public void draw() {
         clear();
 
-        
+
+
         if (scenes.size() > 0) {
         	//System.out.println("DRAW!");
         	Scene current = scenes.get(0);
@@ -96,41 +84,6 @@ public class DemoMain extends PApplet {
         		scenes.remove(0);
         	}
         }
-//
-//        particles.draw(this);
-//        
-        for (SpectrumBox spectrumBox : spectrumBoxArrayList) {
-        	spectrumBox.draw();
-        }
-//        
-//        for(Butterfly butterfly : butterflyArrayList){
-//            butterfly.move();
-//            butterfly.draw(x, y);
-//        }
-//
-//        if (turn) {
-//            x -= speed;
-//            y -= speed;
-//        } else {
-//            x += speed;
-//            y += speed;
-//        }
-//
-//        if (x > 200) {
-//            turn = true;
-//        }
-//
-//        if (x < 1) {
-//            turn = false;
-//        }
-//
-//
-//        float beat = analyser.getBeat();
-//        if (beat > 0.0) {
-//        	fill(255, 0, 0);
-//        	stroke(255, 0, 0);
-//        	Render.circle(this, 20.0f, 20.0f, 18.0f * beat, 32);
-//        }
 
     }
 
