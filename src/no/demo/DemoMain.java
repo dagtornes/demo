@@ -6,19 +6,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DemoMain extends PApplet {
+	private static final long serialVersionUID = 1L;
 
 	private List<Scene> scenes;
 	
-	private static final long serialVersionUID = 1L;
 	MuzakAnalyser analyser;
 	Particles particles;
 
     private int numSpectrumBoxes = 20;
-
+    
     public void setup() {
     	
     	scenes = new ArrayList<Scene>();
-    	scenes.add(new SceneButterflies(this));
+    	scenes.add(new Scene1(this, 5000));
+    	scenes.add(new SceneButterflies(this, 150000));
     	
         size(1280, 1024, P2D);
         background(0);
