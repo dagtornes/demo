@@ -99,7 +99,12 @@ public class DemoMain extends PApplet {
                 sum += analyser.getBand(i);
             }
             sum /= loops;
-            int beatSize = (int) (500.0f * sum);
+            int beatSize = (int) (100.0f * sum);
+
+            if(beatSize > 500){
+                beatSize = 500;
+            }
+
             if(beatSize > top){
                 top = beatSize;
             }
