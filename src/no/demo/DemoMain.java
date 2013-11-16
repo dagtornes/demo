@@ -18,17 +18,12 @@ public class DemoMain extends PApplet {
 	Particles particles;
 	Helix helix1, helix2;
 	
-    private int numSpectrumBoxes = 20;
-
     public void setup() {
     	helix1 = new Helix(150.0f, 10.0f, 0.075f);
     	helix2 = new Helix(150.0f, -10.0f, 0.075f);
-    	helix2.phase = 0.0f;
+    	helix1.phase = -10.0f;
+    	helix2.phase = -10.725f;
     	
-    	
-    	scenes = new ArrayList<Scene>();
-    	scenes.add(new Scene1(this, 5000));
-    	scenes.add(new SceneButterflies(this, 150000));
     	
         size(1280, 1024, P2D);
         background(0);
@@ -39,32 +34,16 @@ public class DemoMain extends PApplet {
         particles.create(150);
 
         scenes = new ArrayList<Scene>();
-        scenes.add(new Scene1(this, 10 * 1000));
+        scenes.add(new Scene1(this, 5000));
         scenes.add(new Scene3(this, analyser, 10 * 2000));
+        scenes.add(new SceneButterflies(this, 150000));
+        
     }
 
-
-
-
-    int x = 0;
-    int y = 0;
-    int x2 = 0;
-    int y2 = 0;
-    int color = 0;
-    boolean turn = true;
-    int speed = 5;
-
-    ArrayList<Butterfly> butterflyArrayList = new ArrayList<Butterfly>();
-    ArrayList<SpectrumBox> spectrumBoxArrayList = new ArrayList<SpectrumBox>();
-
-
-
-
+    
     public void draw() {
         clear();
-
-
-
+        
         if (scenes.size() > 0) {
         	//System.out.println("DRAW!");
         	Scene current = scenes.get(0);
@@ -75,8 +54,10 @@ public class DemoMain extends PApplet {
         }
         
         float beat = analyser.getBeat();
+        helix1.phase -= 0.0166 * 5.0f;
         helix1.amplitude = 10 * beat + 5;
         helix1.draw(this);
+        helix2.phase -= 0.0166 * 5.0f;
         helix2.amplitude = -(10 * beat + 5);
         helix2.draw(this);
     }

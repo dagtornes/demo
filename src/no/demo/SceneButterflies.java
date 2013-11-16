@@ -35,7 +35,7 @@ public class SceneButterflies implements Scene {
 
 		int speed = 1 + (int) (Math.random() * ((SpeedMax - 1) + 1));
 
-		return new Butterfly(parent, randColor1, randColor2, position, 0, speed);
+		return new Butterfly(parent, randColor1, randColor2, position, -500, speed);
 	}
 
 	public SceneButterflies(PApplet parent, long duration) {
