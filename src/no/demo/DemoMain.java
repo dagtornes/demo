@@ -7,6 +7,10 @@ import java.util.List;
 
 public class DemoMain extends PApplet {
 
+	public static void main(String args[]) {
+		PApplet.main(new String[] { "--present", "no.demo.DemoMain" });
+	}
+	
 	private List<Scene> scenes;
 	
 	private static final long serialVersionUID = 1L;
