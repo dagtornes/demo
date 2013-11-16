@@ -45,16 +45,8 @@ public class DemoMain extends PApplet {
         int Min = 0;
         int Max = 250;
 
-        int random1 = Min + (int) (Math.random() * ((Max - Min) + 1));
-        int random2 = Min + (int) (Math.random() * ((Max - Min) + 1));
-        int random3 = Min + (int) (Math.random() * ((Max - Min) + 1));
-
-        int random4 = Min + (int) (Math.random() * ((Max - Min) + 1));
-        int random5 = Min + (int) (Math.random() * ((Max - Min) + 1));
-        int random6 = Min + (int) (Math.random() * ((Max - Min) + 1));
-
-        Color randColor1 = new Color(random1, random2, random3);
-        Color randColor2 = new Color(random4, random5, random6);
+        Color randColor1 = Color.random(Min, Max);
+        Color randColor2 = Color.random(Min, Max);
 
         int PosMax = 2000;
 
@@ -67,7 +59,7 @@ public class DemoMain extends PApplet {
 
         int speed = 1 + (int) (Math.random() * ((SpeedMax - 1) + 1));
 
-        Butterfly b1 = new Butterfly(randColor1, randColor2, position, 0, speed);
+        Butterfly b1 = new Butterfly(this, randColor1, randColor2, position, 0, speed);
 
         return b1;
     }
@@ -118,59 +110,19 @@ public class DemoMain extends PApplet {
         }
     }
 
-    public class Butterfly {
-        private Color bodyColor, wingColor;
-        private int xOffset, yPosition;
-        private int speed;
-
-
-        public Butterfly(Color body, Color wing, int xOffset, int yOffset, int speed) {
-            this.bodyColor = body;
-            this.wingColor = wing;
-            this.xOffset = xOffset;
-            this.yPosition = yOffset;
-            this.speed = speed;
-        }
-
-        public void move() {
-            if (yPosition > 2000) {
-                int Min = 0;
-                int PosMax = 2000;
-
-
-                int pos = Min + (int) (Math.random() * ((PosMax - Min) + 1));
-
-                int SpeedMax = 10;
-
-                int position = Min + (int) (Math.random() * ((PosMax - Min) + 1));
-
-                int speed = 1 + (int) (Math.random() * ((SpeedMax - 1) + 1));
-                xOffset = position;
-                this.speed = speed;
-                yPosition = -300;
-            }
-            yPosition = yPosition + speed;
-        }
-
-        public void draw() {
-            DrawButterflyMethod(bodyColor, wingColor, xOffset, yPosition);
-        }
-    }
-
-
     public void draw() {
         clear();
 
 
         particles.draw(this);
         
+        for (SpectrumBox spectrumBox : spectrumBoxArrayList) {
+        	spectrumBox.draw();
+        }
+        
         for(Butterfly butterfly : butterflyArrayList){
             butterfly.move();
-            butterfly.draw();
-        }
-
-        for (SpectrumBox spectrumBox : spectrumBoxArrayList) {
-            spectrumBox.draw();
+            butterfly.draw(x, y);
         }
 
         if (turn) {
@@ -194,20 +146,11 @@ public class DemoMain extends PApplet {
         if (beat > 0.0) {
         	fill(255, 0, 0);
         	stroke(255, 0, 0);
-        	Render.circle(this, 10.0f, 10.0f, 9.0f * beat, 32);
+        	Render.circle(this, 20.0f, 20.0f, 18.0f * beat, 32);
         }
 
     }
 
-    public class Color {
-        public int R, G, B;
-
-        public Color(int r, int g, int b) {
-            this.R = r;
-            this.G = g;
-            this.B = b;
-        }
-    }
 
     private void DrawMirroredSpectrumBox(Color body, int position, int readout) {
         fill(body.R, body.G, body.B);
@@ -229,39 +172,4 @@ public class DemoMain extends PApplet {
                 baseX, bottomY);
     }
 
-    private void DrawButterflyMethod(Color body, Color wings, int xOffset, int yOffset) {
-        //Butterfly body
-        float beat = analyser.getBeat();
-        int height = 100;
-        int wingSpan = (int) (beat * beat * 50 + 200);
-        wingSpan = 200;
-        stroke(50, 50, 100);
-        fill(body.R, body.G, body.B);
-        quad(
-                xOffset, yOffset + 150 - height,
-                xOffset + 100, yOffset + 150 - height,   //Punkg - 2
-                xOffset + 100, yOffset + 150 + height,   //Punkt - 3
-                xOffset, yOffset + 150 + height);
-
-
-        //Wing color
-        stroke(color, 50, 100);
-        fill(wings.R, wings.G, wings.B);
-
-        //Wing One
-        quad(
-                xOffset - wingSpan + x, yOffset - 100 + y,  //Left part
-                xOffset, yOffset + 150 - height,
-                xOffset, yOffset + 150 + height,
-                xOffset - wingSpan + x, yOffset + 400 - y); //Left part
-
-
-        //Wing Two
-        quad(
-                xOffset + 100, yOffset + 150 - height,
-                xOffset + wingSpan + 100 - x, yOffset - 100 + x, //Right part
-                xOffset + wingSpan + 100 - x, yOffset + 400 - x, //Right part
-                xOffset + 100, yOffset + 150 + height);
-
-    }
 }
