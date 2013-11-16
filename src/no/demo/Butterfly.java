@@ -1,16 +1,18 @@
 package no.demo;
 
+import processing.core.PApplet;
+
 
 public class Butterfly {
     private static final int color = 0;
 
-	private final DemoMain demoMain;
+	private final PApplet demoMain;
 	private Color bodyColor, wingColor;
     private int xOffset, yPosition;
     private int speed;
 
 
-    public Butterfly(DemoMain demoMain, Color body, Color wing, int xOffset, int yOffset, int speed) {
+    public Butterfly(PApplet demoMain, Color body, Color wing, int xOffset, int yOffset, int speed) {
         this.demoMain = demoMain;
 		this.bodyColor = body;
         this.wingColor = wing;
@@ -64,7 +66,5 @@ public class Butterfly {
                 xOffset + 400 - x, yPosition - 100 + x,
                 xOffset + 400 - x, yPosition + 400 - x,
                 xOffset + 100, yPosition + 300);
-
-        //this.demoMain.DrawButterflyMethod(bodyColor, wingColor, xOffset, yPosition);
     }
 }
