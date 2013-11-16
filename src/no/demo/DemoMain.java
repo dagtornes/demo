@@ -3,9 +3,12 @@ package no.demo;
 import processing.core.PApplet;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DemoMain extends PApplet {
 
+	private List<Scene> scenes;
+	
 	private static final long serialVersionUID = 1L;
 	MuzakAnalyser analyser;
 	Particles particles;
@@ -13,6 +16,10 @@ public class DemoMain extends PApplet {
     private int numSpectrumBoxes = 20;
 
     public void setup() {
+    	
+    	scenes = new ArrayList<Scene>();
+    	scenes.add(new Scene1(this, 10 * 1000));
+    	
         size(1280, 1024, P2D);
         background(0);
 
@@ -118,41 +125,50 @@ public class DemoMain extends PApplet {
     public void draw() {
         clear();
 
-
-        particles.draw(this);
         
-        for (SpectrumBox spectrumBox : spectrumBoxArrayList) {
-        	spectrumBox.draw();
+        if (scenes.size() > 0) {
+        	//System.out.println("DRAW!");
+        	Scene current = scenes.get(0);
+        	current.draw(this);
+        	if (current.done()) {
+        		scenes.remove(0);
+        	}
         }
-        
-        for(Butterfly butterfly : butterflyArrayList){
-            butterfly.move();
-            butterfly.draw(x, y);
-        }
-
-        if (turn) {
-            x -= speed;
-            y -= speed;
-        } else {
-            x += speed;
-            y += speed;
-        }
-
-        if (x > 200) {
-            turn = true;
-        }
-
-        if (x < 1) {
-            turn = false;
-        }
-
-
-        float beat = analyser.getBeat();
-        if (beat > 0.0) {
-        	fill(255, 0, 0);
-        	stroke(255, 0, 0);
-        	Render.circle(this, 20.0f, 20.0f, 18.0f * beat, 32);
-        }
+//
+//        particles.draw(this);
+//        
+//        for (SpectrumBox spectrumBox : spectrumBoxArrayList) {
+//        	spectrumBox.draw();
+//        }
+//        
+//        for(Butterfly butterfly : butterflyArrayList){
+//            butterfly.move();
+//            butterfly.draw(x, y);
+//        }
+//
+//        if (turn) {
+//            x -= speed;
+//            y -= speed;
+//        } else {
+//            x += speed;
+//            y += speed;
+//        }
+//
+//        if (x > 200) {
+//            turn = true;
+//        }
+//
+//        if (x < 1) {
+//            turn = false;
+//        }
+//
+//
+//        float beat = analyser.getBeat();
+//        if (beat > 0.0) {
+//        	fill(255, 0, 0);
+//        	stroke(255, 0, 0);
+//        	Render.circle(this, 20.0f, 20.0f, 18.0f * beat, 32);
+//        }
 
     }
 

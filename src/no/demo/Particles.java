@@ -73,7 +73,7 @@ public class Particles {
 		this.parent = parent;
 		this.particles = new ArrayList<Particle>();
 		
-		this.texture = parent.loadImage("radial.jpg");
+		//this.texture = parent.loadImage("radial.jpg");
 	}
 	
 	

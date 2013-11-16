@@ -16,12 +16,12 @@ public class MuzakAnalyser {
 	public MuzakAnalyser(PApplet parent) {
 		this.parent = parent;
 		minim = new Minim(parent);
-		song = minim.loadFile("c:/winter.mp3", 512);
+		song = minim.loadFile("winter.mp3", 512);
 		
 		bd = new BeatDetect(song.bufferSize(), song.sampleRate());
 		bd.detectMode(BeatDetect.FREQ_ENERGY);
 		song.play();
-        song.mute();
+//        song.mute();
 
 
 		fft = new FFT(song.bufferSize(), song.sampleRate());
